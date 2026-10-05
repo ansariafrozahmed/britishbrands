@@ -1,8 +1,11 @@
 import { formatPrice, type Product } from "@/lib/products";
 import { contact, telHref, whatsappHref } from "@/lib/site";
 
-export function QuickEnquiry({ product }: { product: Product }) {
-  const message = `Hi British Brands, I'm interested in ${product.name} (${product.sizes[0]}, ${formatPrice(product.price)}). Could you share availability and offers?`;
+export function QuickEnquiry({ product }: { product: any }) {
+  const sizeStr = product.sizes?.[0]?.size || "";
+  const price = parseFloat(product.price) || 0;
+  const sizeText = sizeStr ? `${sizeStr}, ` : "";
+  const message = `Hi British Brands, I'm interested in ${product.name} (${sizeText}${formatPrice(price)}). Could you share availability and offers?`;
 
   return (
     <div>

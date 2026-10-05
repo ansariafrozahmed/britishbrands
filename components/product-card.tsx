@@ -32,7 +32,7 @@ export function ProductCard({ product }: { product: Product }) {
         <p className="truncate text-[9px] font-medium uppercase tracking-[0.15em] lg:tracking-[0.20em] text-gold">
           {family}
         </p>
-        <h3 className="mt-1 md:mt-2 font-display text-[13px] lg:text-[15px] font-semibold uppercase tracking-[0.09em] transition-colors duration-300 group-hover:text-gold">
+        <h3 className="mt-1 md:mt-2 font-display text-[13px] lg:text-[15px] font-medium tracking-wide uppercase transition-colors duration-300 group-hover:text-gold">
           {product.name}
         </h3>
         {/* <div className="mt-1.5 md:mt-2.5 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">

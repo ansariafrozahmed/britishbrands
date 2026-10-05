@@ -4,32 +4,34 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { ProductCard } from "@/components/product-card";
+import { ProductGallery } from "@/components/product-gallery";
 import { QuickEnquiry } from "@/components/quick-enquiry";
 import { Reveal } from "@/components/reveal";
-import {
-  categoryLabel,
-  discountPercent,
-  formatPrice,
-  getCollection,
-  getProduct,
-  getRelated,
-  products,
-} from "@/lib/products";
-
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
-}
+import { formatPrice } from "@/lib/products";
 
 export async function generateMetadata({
   params,
 }: PageProps<"/products/[slug]">): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProduct(slug);
-  if (!product) return { title: "Fragrance not found" };
-  return {
-    title: `${product.name} Eau de Parfum`,
-    description: product.description,
-  };
+  try {
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_URL ||
+      "https://britishbrandbck.demotempwebsite.co.in/wp-json";
+    const res = await fetch(
+      `${apiUrl}/custom/v1/getProductBySlug?slug=${slug}`,
+    );
+    const data = await res.json();
+    if (data.success && data.product) {
+      return {
+        title: `${data.product.name} Eau de Parfum`,
+        description:
+          data.product.description?.replace(/<[^>]*>?/gm, "") ||
+          data.product.tagline,
+      };
+    }
+  } catch (err) {}
+
+  return { title: "Fragrance not found" };
 }
 
 function SectionTitle({ children }: { children: ReactNode }) {
@@ -72,26 +74,69 @@ export default async function ProductPage({
   params,
 }: PageProps<"/products/[slug]">) {
   const { slug } = await params;
-  const product = getProduct(slug);
+
+  let product: any = null;
+  let related: any[] = [];
+  try {
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_URL ||
+      "https://britishbrandbck.demotempwebsite.co.in/wp-json";
+
+    // Fetch product
+    const res = await fetch(
+      `${apiUrl}/custom/v1/getProductBySlug?slug=${slug}`,
+      { next: { revalidate: 60 } },
+    );
+    const data = await res.json();
+    if (data.success && data.product) {
+      product = data.product;
+    }
+
+    // Fetch related (we'll just use getProducts and filter)
+    const relatedRes = await fetch(`${apiUrl}/custom/v1/getProducts`, {
+      next: { revalidate: 60 },
+    });
+    const relatedData = await relatedRes.json();
+    if (relatedData.success && relatedData.products) {
+      // Map it to fit ProductCard expectations
+      related = relatedData.products
+        .filter((p: any) => p.slug !== slug)
+        .slice(0, 4)
+        .map((p: any) => ({
+          ...p,
+          image: Array.isArray(p.image)
+            ? p.image[0]
+            : p.image ||
+              "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+          tagline: p.tagline || "",
+          price: p.price || 0,
+          mrp: p.mrp || 1,
+        }));
+    }
+  } catch (err) {
+    console.error(err);
+  }
+
   if (!product) notFound();
 
-  const related = getRelated(product);
-  const off = discountPercent(product);
-  const collection = getCollection(product.collections[0]);
+  const price = parseFloat(product.price) || 0;
+  const mrp = parseFloat(product.mrp) || 0;
+  const off = mrp > price ? Math.round(((mrp - price) / mrp) * 100) : 0;
+  const collection = product.collections?.[0];
 
   const pyramid = [
-    { tier: "Top Notes", notes: product.notes.top },
-    { tier: "Middle Notes", notes: product.notes.middle },
-    { tier: "Base Notes", notes: product.notes.base },
+    { tier: "Top Notes", notes: product.notes?.top || [] },
+    { tier: "Middle Notes", notes: product.notes?.middle || [] },
+    { tier: "Base Notes", notes: product.notes?.base || [] },
   ];
 
   const specs = [
-    ["Formulation", product.specs.formulation],
-    ["Target Gender", product.specs.targetGender],
-    ["Bottle Volume", product.specs.volume],
-    ["Ideal Wear", product.specs.idealWear],
-    ["Packaging", product.specs.packaging],
-    ["Storage", product.specs.storage],
+    ["Formulation", product.specs?.formulation || ""],
+    ["Target Gender", product.specs?.targetGender || ""],
+    ["Bottle Volume", product.specs?.volume || ""],
+    ["Ideal Wear", product.specs?.idealWear || ""],
+    ["Packaging", product.specs?.packaging || ""],
+    ["Storage", product.specs?.storage || ""],
   ];
 
   return (
@@ -115,11 +160,10 @@ export default async function ProductPage({
             <>
               <span className="mx-3">/</span>
               <Link
-                href={`/collections/${collection.handle}`}
+                href={`/collections/${collection.slug}`}
                 className="transition-colors hover:text-ink"
-              >
-                {collection.title}
-              </Link>
+                dangerouslySetInnerHTML={{ __html: collection.name }}
+              />
             </>
           )}
           <span className="mx-3">/</span>
@@ -128,22 +172,16 @@ export default async function ProductPage({
 
         <div className="mt-8 grid gap-12 lg:grid-cols-2 lg:gap-16">
           {/* ————— image ————— */}
-          <div className="lg:sticky lg:top-32 lg:self-start">
-            <div className="relative aspect-[4/5] overflow-hidden">
-              <Image
-                src={product.image}
-                alt={`${product.name} Eau de Parfum bottle`}
-                fill
-                preload
-                sizes="(max-width: 1024px) 95vw, 48vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="grid grid-cols-3 border border-t-0 border-line text-center">
+          <div className="lg:self-start">
+            <ProductGallery
+              images={product.images || (product.image ? [product.image] : [])}
+              alt={`${product.name} Eau de Parfum`}
+            />
+            <div className="mt-6 grid grid-cols-3 border border-line text-center">
               {[
-                ["Longevity", product.longevity],
-                ["Category", categoryLabel[product.gender].split(" (")[0]],
-                ["Size", product.sizes[0]],
+                ["Longevity", product.longevity || ""],
+                ["Category", product.gender || ""],
+                ["Size", product.sizes?.[0]?.size || ""],
               ].map(([label, value], i) => (
                 <div
                   key={label}
@@ -161,7 +199,7 @@ export default async function ProductPage({
           {/* ————— details ————— */}
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-gold">
-              {categoryLabel[product.gender]} · {product.sizes[0]}
+              {product.gender} · {product.sizes?.[0]?.size || ""}
             </p>
             <h1 className="mt-4 font-display text-3xl font-semibold uppercase tracking-[0.14em] md:text-4xl">
               {product.name}
@@ -172,11 +210,11 @@ export default async function ProductPage({
 
             <div className="mt-7 flex flex-wrap items-baseline gap-3 border-y border-line py-5">
               <span className="text-3xl font-semibold tracking-wide">
-                {formatPrice(product.price)}
+                {formatPrice(price)}
               </span>
               <span className="text-base font-light text-muted line-through">
                 <span className="sr-only">MRP </span>
-                {formatPrice(product.mrp)}
+                {formatPrice(mrp)}
               </span>
               <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
                 {off}% Off
@@ -190,12 +228,12 @@ export default async function ProductPage({
               <QuickEnquiry product={product} />
             </div>
 
-            {/* about */}
             <div className="mt-12">
               <SectionTitle>About the Fragrance</SectionTitle>
-              <p className="mt-4 text-[15px] font-light leading-[1.9] text-ink">
-                {product.description}
-              </p>
+              <div
+                className="mt-4 text-[15px] font-light leading-[1.9] text-ink [&>p]:mb-4"
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
             </div>
 
             {/* pyramid */}
@@ -245,7 +283,7 @@ export default async function ProductPage({
             <div className="mt-12 border-t border-line">
               <Accordion title="How to Use" defaultOpen>
                 <ol className="space-y-4">
-                  {product.howToUse.map((s, i) => (
+                  {(product.howToUse || []).map((s: any, i: number) => (
                     <li key={s.step} className="flex gap-4">
                       <span className="flex h-6 w-6 shrink-0 items-center justify-center border border-gold/50 text-[10px] font-semibold text-gold">
                         {i + 1}
@@ -298,7 +336,7 @@ export default async function ProductPage({
               <Link
                 href={
                   collection
-                    ? `/collections/${collection.handle}`
+                    ? `/collections/${collection.slug}`
                     : "/collections"
                 }
                 className="link-sweep hidden text-[10px] font-medium uppercase tracking-[0.3em] sm:block"

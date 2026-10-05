@@ -122,9 +122,7 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
-          glass ? "bg-transparent" : "bg-bg"
-        }`}
+        className="fixed inset-x-0 top-0 z-50"
         onMouseLeave={() => setMega(false)}
         onBlur={(e) => {
           if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
@@ -132,6 +130,13 @@ export function Header() {
           }
         }}
       >
+        {/* Background layer to avoid Safari transition-to-transparent color bugs */}
+        <div 
+          className={`absolute inset-0 bg-bg transition-opacity duration-500 pointer-events-none ${
+            glass ? "opacity-0" : "opacity-100"
+          }`} 
+          style={{ zIndex: -1 }}
+        />
         {/* announcement — folds away on scroll */}
         <div
           className={`overflow-hidden bg-charcoal text-white transition-[height] duration-500 ${

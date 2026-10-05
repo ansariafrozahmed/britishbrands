@@ -8,15 +8,15 @@ import Autoplay from "embla-carousel-autoplay";
 
 const slides = [
   {
-    id: 1,
-    desktop: "https://pub-ab787ccfc74d4e3fb148587fdedd4650.r2.dev/DSC00632.JPG",
-    mobile: "https://pub-ab787ccfc74d4e3fb148587fdedd4650.r2.dev/DSC00632.JPG",
+    id: 2,
+    desktop: "/DSC00621.webp",
+    mobile: "/DSC00621.webp",
     alt: "The British Brands collection - Slide 1",
   },
   {
-    id: 2,
-    desktop: "https://pub-ab787ccfc74d4e3fb148587fdedd4650.r2.dev/DSC00621.JPG",
-    mobile: "https://pub-ab787ccfc74d4e3fb148587fdedd4650.r2.dev/DSC00621.JPG",
+    id: 1,
+    desktop: "/DSC00632ddd.webp",
+    mobile: "/DSC00632ddd.webp",
     alt: "The British Brands collection - Slide 1",
   },
 ];

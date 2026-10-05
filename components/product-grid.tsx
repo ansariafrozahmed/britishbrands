@@ -56,8 +56,12 @@ function GridSection({
 export async function ProductGrid() {
   let apiProducts: any[] = [];
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://britishbrandbck.demotempwebsite.co.in/wp-json";
-    const res = await fetch(`${apiUrl}/custom/v1/getProducts`, { next: { revalidate: 60 } });
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_URL ||
+      "https://britishbrandbck.demotempwebsite.co.in/wp-json";
+    const res = await fetch(`${apiUrl}/custom/v1/getProducts`, {
+      next: { revalidate: 60 },
+    });
     const data = await res.json();
     if (data.success && data.products) {
       apiProducts = data.products;
@@ -70,7 +74,10 @@ export async function ProductGrid() {
 
   const mappedProducts = apiProducts.map((p) => ({
     ...p,
-    image: Array.isArray(p.image) ? p.image[0] : (p.image || "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"),
+    image: Array.isArray(p.image)
+      ? p.image[0]
+      : p.image ||
+        "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
     tagline: p.tagline || "",
     price: p.price || 0,
     mrp: p.mrp || 1, // prevent division by zero in discountPercent
