@@ -9,7 +9,7 @@ import { FaqSection } from "@/components/faq";
 import { B2bSection } from "@/components/b2b-section";
 import { InstagramFeed } from "@/components/instagram-feed";
 
-export const revalidate = 10;
+
 
 export default function HomePage() {
   return (
