@@ -40,66 +40,68 @@ export function FaqSection() {
 
   return (
     <section className="bg-bg py-16 lg:py-24">
-      <div className="mx-auto max-w-4xl px-5 lg:px-10">
-        <Reveal className="text-center mb-12">
-          <p className="eyebrow-rule text-[11px] font-medium uppercase tracking-[0.45em] text-gold">
-            Support
-          </p>
-          <h2 className="mt-4 font-display text-[1.6rem] uppercase font-normal tracking-[0.01em] text-[#3F2E19] leading-[1.4] md:text-[1.8rem]">
-            Frequently Asked Questions
-          </h2>
-        </Reveal>
+      <div className="mx-auto max-w-3xl px-5 lg:px-10">
+        <div className="flex flex-col justify-center h-full">
+          <Reveal className="mb-10 text-center">
+            <p className="eyebrow-rule text-[11px] font-medium uppercase tracking-[0.45em] text-gold before:bg-gold after:bg-gold">
+              Support
+            </p>
+            <h2 className="mt-4 font-display text-[1.6rem] uppercase font-normal tracking-[0.01em] text-[#3F2E19] leading-[1.4] md:text-[1.8rem]">
+              Frequently Asked Questions
+            </h2>
+          </Reveal>
 
-        <div className="space-y-4">
-          {faqs.map((faq, idx) => (
-            <Reveal key={idx} delay={idx * 100}>
-              <div
-                className={`border border-line rounded-sm bg-white overflow-hidden transition-all duration-300 ${
-                  openIndex === idx
-                    ? "shadow-sm border-gold/40"
-                    : "hover:border-ink/20"
-                }`}
-              >
-                <button
-                  onClick={() => toggleFaq(idx)}
-                  className="w-full flex items-center justify-between p-6 text-left focus:outline-none"
-                  aria-expanded={openIndex === idx}
-                >
-                  <span className="font-display text-[15px] font-medium tracking-wide text-ink pr-8">
-                    {faq.question}
-                  </span>
-                  <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full border border-line text-ink transition-transform duration-300">
-                    <svg
-                      viewBox="0 0 24 24"
-                      className={`w-4 h-4 transition-transform duration-300 ${openIndex === idx ? "rotate-180" : ""}`}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </span>
-                </button>
+          <div className="space-y-4">
+            {faqs.map((faq, idx) => (
+              <Reveal key={idx} delay={idx * 100}>
                 <div
-                  className={`grid transition-all duration-300 ease-in-out ${
+                  className={`border border-line rounded-sm bg-white overflow-hidden transition-all duration-300 ${
                     openIndex === idx
-                      ? "grid-rows-[1fr] opacity-100"
-                      : "grid-rows-[0fr] opacity-0"
+                      ? "shadow-sm border-gold/40"
+                      : "hover:border-ink/20"
                   }`}
                 >
-                  <div className="overflow-hidden">
-                    <div className="!py-4 pt-0 text-[14.5px] font-light leading-[1.9] text-muted border-t border-line/50 mx-6 mt-2">
-                      {faq.answer}
+                  <button
+                    onClick={() => toggleFaq(idx)}
+                    className="w-full flex items-center justify-between px-6 py-4 text-left focus:outline-none"
+                    aria-expanded={openIndex === idx}
+                  >
+                    <span className="font-display text-[15px] font-normal text-ink pr-8">
+                      {faq.question}
+                    </span>
+                    <span className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full border border-line text-ink transition-transform duration-300">
+                      <svg
+                        viewBox="0 0 24 24"
+                        className={`w-4 h-4 transition-transform duration-300 ${openIndex === idx ? "rotate-180" : ""}`}
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                  <div
+                    className={`grid transition-all duration-300 ease-in-out ${
+                      openIndex === idx
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="!py-4 pt-0 text-[14.5px] font-light leading-[1.9] text-muted border-t border-line/50 mx-6 mt-2">
+                        {faq.answer}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>

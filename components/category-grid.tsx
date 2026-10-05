@@ -8,6 +8,30 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback, useEffect, useState } from "react";
 
+export function useCategories() {
+  const [cats, setCats] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchCats() {
+      try {
+        const apiUrl =
+          process.env.NEXT_PUBLIC_API_URL ||
+          "https://britishbrandbck.demotempwebsite.co.in/wp-json";
+        const res = await fetch(`${apiUrl}/custom/v1/getAllCategories`);
+        const data = await res.json();
+        if (data.success && data.categories) {
+          setCats(data.categories);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    fetchCats();
+  }, []);
+
+  return cats.length > 0 ? cats : collections;
+}
+
 export function CategorySlider() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -21,6 +45,7 @@ export function CategorySlider() {
   const [prevBtnDisabled, setPrevBtnDisabled] = useState(true);
   const [nextBtnDisabled, setNextBtnDisabled] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const items = useCategories();
 
   const scrollPrev = useCallback(() => {
     if (!emblaApi) return;
@@ -82,32 +107,34 @@ export function CategorySlider() {
     <div className="relative">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y -ml-4 lg:-ml-6">
-          {collections.map((c) => (
-            <div
-              key={c.handle}
-              className="min-w-0 flex-none  pl-4 w-[65%] sm:w-[40%] lg:w-[22%]"
-            >
-              <Link
-                href={`/collections/${c.handle}`}
-                className="group relative block aspect-[3/4] overflow-hidden"
+          {items.map((c: any) => {
+            const localImage = collections.find(
+              (lc) => lc.handle === (c.slug || c.handle),
+            )?.image;
+            const imageUrl =
+              c.image ||
+              localImage ||
+              "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
+            return (
+              <div
+                key={c.slug || c.handle}
+                className="min-w-0 flex-none  pl-4 w-[60%] sm:w-[40%] lg:w-[25%]"
               >
-                <Image
-                  src={c.image}
-                  alt={`Shop ${c.title} fragrances`}
-                  fill
-                  sizes="(max-width: 640px) 90vw, 33vw"
-                  className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.06]"
-                />
-                {/* Optional subtle overlay so text is legible if you decide to add text inside */}
-                {/* <div className="absolute inset-0 bg-black/10 transition-opacity duration-300 group-hover:bg-black/0" /> */}
-              </Link>
-              {/* <div className="mt-4 text-center">
-                <h3 className="font-display text-[14px] font-medium uppercase tracking-[0.1em] text-ink">
-                  {c.title}
-                </h3>
-              </div> */}
-            </div>
-          ))}
+                <Link
+                  href={`/collections/${c.slug || c.handle}`}
+                  className="group relative block aspect-[3/4] overflow-hidden"
+                >
+                  <Image
+                    src={imageUrl}
+                    alt={`Shop ${c.name || c.title} fragrances`}
+                    fill
+                    sizes="(max-width: 640px) 90vw, 50vw"
+                    className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.06]"
+                  />
+                </Link>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -164,7 +191,7 @@ export function CategorySlider() {
 
 export function CategoryGrid() {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-12 lg:px-10 lg:py-20">
+    <section className="mx-auto max-w-[1500px] px-5 py-12 lg:px-14 lg:py-20">
       <Reveal className="text-center">
         <p className="eyebrow-rule text-[11px] font-medium uppercase tracking-[0.45em] text-gold">
           Collections
@@ -178,5 +205,47 @@ export function CategoryGrid() {
         <CategorySlider />
       </div>
     </section>
+  );
+}
+
+export function CollectionTiles() {
+  const items = useCategories();
+
+  return (
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-8">
+      {items.map((c: any, i: number) => {
+        const imageUrl =
+          c.image ||
+          "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
+
+        return (
+          <Reveal key={c.slug || c.handle} delay={i * 100}>
+            <Link
+              href={`/collections/${c.slug || c.handle}`}
+              className="group relative block aspect-[3/4] overflow-hidden"
+            >
+              <Image
+                src={imageUrl}
+                alt={c.name || c.title}
+                fill
+                sizes="(max-width: 1024px) 50vw, 25vw"
+                className="object-cover transition-transform duration-1000 group-hover:scale-105"
+              />
+              {/* <div className="absolute inset-0 bg-ink/20 transition-colors group-hover:bg-ink/40" />
+              <div className="absolute inset-0 flex items-center justify-center p-4">
+                <span
+                  className="font-display text-[15px] md:text-lg font-medium tracking-widest text-white uppercase text-center"
+                  dangerouslySetInnerHTML={
+                    c.name ? { __html: c.name } : undefined
+                  }
+                >
+                  {!c.name ? c.title : null}
+                </span>
+              </div> */}
+            </Link>
+          </Reveal>
+        );
+      })}
+    </div>
   );
 }

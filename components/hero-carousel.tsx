@@ -2,16 +2,21 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 
 const slides = [
   {
     id: 1,
-    desktop:
-      "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
-    mobile:
-      "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png",
+    desktop: "https://pub-ab787ccfc74d4e3fb148587fdedd4650.r2.dev/DSC00632.JPG",
+    mobile: "https://pub-ab787ccfc74d4e3fb148587fdedd4650.r2.dev/DSC00632.JPG",
+    alt: "The British Brands collection - Slide 1",
+  },
+  {
+    id: 2,
+    desktop: "https://pub-ab787ccfc74d4e3fb148587fdedd4650.r2.dev/DSC00621.JPG",
+    mobile: "https://pub-ab787ccfc74d4e3fb148587fdedd4650.r2.dev/DSC00621.JPG",
     alt: "The British Brands collection - Slide 1",
   },
 ];
@@ -54,14 +59,19 @@ export function HeroCarousel() {
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {slides.map((slide, index) => (
-            <div key={slide.id} className="min-w-0 flex-[0_0_100%] relative">
+            <div
+              key={slide.id}
+              className="min-w-0 flex-[0_0_100%] h-[85vh] lg:h-screen relative"
+            >
               {/* Desktop */}
               <Image
                 src={slide.desktop}
                 alt={slide.alt}
                 width={1920}
                 height={1080}
-                className="hidden w-full h-auto md:block"
+                sizes="100vw"
+                quality={100}
+                className="hidden w-full h-full object-cover object-center md:block"
                 priority={index === 0}
               />
               {/* Mobile */}
@@ -70,7 +80,9 @@ export function HeroCarousel() {
                 alt={slide.alt}
                 width={1080}
                 height={1920}
-                className="block w-full h-auto md:hidden"
+                sizes="100vw"
+                quality={100}
+                className="block w-full h-full object-cover object-center md:hidden"
                 priority={index === 0}
               />
             </div>
@@ -78,9 +90,34 @@ export function HeroCarousel() {
         </div>
       </div>
 
+      {/* Overlay content */}
+      <div className="absolute inset-0 z-10 pb-6 lg:pb-8 flex flex-col items-center justify-end bg-linear-to-t from-[#1B1815]/85 via-transparent to-[#1B1815]/50 text-center px-6">
+        <h1 className="text-[28px] md:text-3xl lg:text-[2rem] font-semibold text-white tracking-wide uppercase mb-4 lg:mb-5 max-w-4xl [text-shadow:0_4px_12px_rgba(0,0,0,0.8)]">
+          Discover Your Signature Scent
+        </h1>
+        <p className="text-[13px] md:text-base text-white/90 font-normal max-w-xl mb-6 lg:mb-10 [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] leading-relaxed">
+          Explore a curated selection of fragrances from British Brands,
+          available through our retail store in Libya.
+        </p>
+        <div className="grid grid-cols-2 items-center gap-4 w-full sm:w-auto">
+          <Link
+            href="/g"
+            className="flex h-12 w-full sm:w-auto items-center justify-center bg-white px-2 lg:px-8 text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.1em] text-ink transition-colors hover:bg-gold hover:text-white"
+          >
+            Explore Fragrace
+          </Link>
+          <Link
+            href="/store"
+            className="flex h-12 w-full sm:w-auto items-center justify-center border border-white px-2 lg:px-8 text-[10px] lg:text-[11px] font-semibold uppercase tracking-[0.1em] text-white transition-colors hover:bg-white hover:text-ink"
+          >
+            Visit Our Store
+          </Link>
+        </div>
+      </div>
+
       {/* Navigation arrows */}
 
-      {slides.length > 1 && (
+      {/* {slides.length > 1 && (
         <>
           <button
             onClick={scrollPrev}
@@ -121,7 +158,6 @@ export function HeroCarousel() {
             </svg>
           </button>
 
-          {/* Indicators */}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2.5">
             {slides.map((_, index) => (
               <button
@@ -137,7 +173,7 @@ export function HeroCarousel() {
             ))}
           </div>
         </>
-      )}
+      )} */}
     </section>
   );
 }

@@ -76,12 +76,12 @@ const approaches = [
 export function OurApproach() {
   return (
     <section className="bg-bg py-12 lg:py-20">
-      <div className="mx-auto max-w-7xl px-5 lg:px-10">
+      <div className="mx-auto max-w-[1500px] px-5 lg:px-14">
         <Reveal className="text-center">
           <p className="eyebrow-rule text-[11px] font-medium uppercase tracking-[0.45em] text-gold">
             Our Approach
           </p>
-          <h2 className="mt-4 font-display text-2xl font-semibold uppercase tracking-[0.18em] md:text-3xl">
+          <h2 className="mt-4 font-display text-[1.6rem] uppercase font-normal tracking-[0.01em] text-[#3F2E19] leading-[1.4] md:text-[1.8rem]">
             A Curated Fragrance Experience
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-[15px] font-light leading-[1.9] text-muted">

@@ -13,7 +13,7 @@ const nav = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/brands", label: "Brands" },
-  { href: "/g", label: "Fragrance", mega: true },
+  { href: "/collections", label: "Fragrance", mega: true },
   { href: "/store", label: "Store" },
   { href: "/partner-with-us", label: "B2B & Brand Partnerships" },
   { href: "/contact", label: "Contact" },
@@ -29,7 +29,6 @@ const announcements = [
     full: "Long-lasting Eau de Parfum",
     short: "Long-lasting Eau de Parfum",
   },
-
 ];
 
 const featured = products.slice(0, 4);
@@ -42,7 +41,30 @@ export function Header() {
   const [mega, setMega] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [message, setMessage] = useState(0);
+  const [megaCategories, setMegaCategories] = useState<
+    { name: string; slug: string }[]
+  >([]);
+  const [megaProducts, setMegaProducts] = useState<any[]>([]);
   const { slugs } = useWishlist();
+
+  useEffect(() => {
+    async function fetchMegaMenu() {
+      try {
+        const apiUrl =
+          process.env.NEXT_PUBLIC_API_URL ||
+          "https://britishbrandbck.demotempwebsite.co.in/wp-json";
+        const res = await fetch(`${apiUrl}/custom/v1/megaMenu`);
+        const data = await res.json();
+        if (data.success) {
+          setMegaCategories(data.categories?.items || []);
+          setMegaProducts(data.products?.items || []);
+        }
+      } catch (err) {
+        console.error("MegaMenu API error:", err);
+      }
+    }
+    fetchMegaMenu();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -94,7 +116,7 @@ export function Header() {
   // transparent only while resting on top of the home hero
   const glass = isHome && !scrolled && !open && !mega;
   const iconColor = glass
-    ? "text-ink/75 hover:text-ink"
+    ? "text-white/90 hover:text-white"
     : "text-ink hover:text-gold";
 
   return (
@@ -144,8 +166,8 @@ export function Header() {
 
         {/* row 1 — search · logo · wishlist */}
         <div
-          className={`mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-5 transition-[height] duration-500 lg:px-10 ${
-            scrolled ? "h-16" : "h-20 lg:h-22"
+          className={`mx-auto grid max-w-[1500px] grid-cols-[1fr_auto_1fr] items-center px-5 transition-[height] duration-500 lg:px-14 ${
+            scrolled ? "h-16" : "h-20"
           }`}
         >
           <button
@@ -170,7 +192,13 @@ export function Header() {
               <span className="link-sweep text-[10px] font-medium uppercase tracking-[0.3em]">
                 Search
               </span>
-              <kbd className="border border-ink/20 px-1.5 py-0.5 font-sans text-[9px] leading-none text-ink/50">
+              <kbd
+                className={`border px-1.5 py-0.5 font-sans text-[9px] leading-none ${
+                  glass
+                    ? "border-white/30 text-white/70"
+                    : "border-ink/20 text-ink/50"
+                }`}
+              >
                 /
               </kbd>
             </span>
@@ -188,8 +216,8 @@ export function Header() {
               height={350}
               preload
               className={`w-auto transition-all duration-500 ${
-                scrolled ? "h-10" : "h-12 lg:h-16"
-              }`}
+                scrolled ? "h-10" : "h-12 lg:h-14"
+              } ${glass ? "brightness-0 invert" : ""}`}
             />
           </Link>
 
@@ -234,14 +262,14 @@ export function Header() {
               className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
             >
               <span
-                className={`h-px w-6 bg-ink transition-all duration-300 ${
-                  open ? "translate-y-[3.5px] rotate-45" : ""
-                }`}
+                className={`h-px w-6 transition-all duration-300 ${
+                  glass && !open ? "bg-white" : "bg-ink"
+                } ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
               />
               <span
-                className={`h-px w-6 bg-ink transition-all duration-300 ${
-                  open ? "-translate-y-[3.5px] -rotate-45" : ""
-                }`}
+                className={`h-px w-6 transition-all duration-300 ${
+                  glass && !open ? "bg-white" : "bg-ink"
+                } ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`}
               />
             </button>
           </div>
@@ -256,7 +284,9 @@ export function Header() {
           {nav.map((item) => {
             const active = pathname === item.href && !item.href.includes("?");
             const linkClass = `link-sweep flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors duration-300 ${
-              glass ? "text-ink/80 hover:text-ink" : "text-ink hover:text-gold"
+              glass
+                ? "text-white/90 hover:text-white"
+                : "text-ink hover:text-gold"
             }`;
 
             if ("mega" in item) {
@@ -310,19 +340,25 @@ export function Header() {
               : "pointer-events-none invisible -translate-y-2 opacity-0"
           }`}
         >
-          <div className="mx-auto grid max-w-7xl grid-cols-[200px_1fr] gap-12 px-10 py-10">
+          <div className="mx-auto grid max-w-[1500px] grid-cols-[200px_1fr] gap-12 px-10 py-10">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-gold">
                 Collections
               </p>
               <ul className="mt-5 space-y-3">
-                {collections.map((c) => (
-                  <li key={c.handle}>
+                {(megaCategories.length > 0
+                  ? megaCategories
+                  : collections.slice(0, 5)
+                ).map((c: any) => (
+                  <li key={c.slug || c.handle}>
                     <Link
-                      href={`/collections/${c.handle}`}
+                      href={`/collections/${c.slug || c.handle}`}
                       className="text-sm font-light text-ink transition-colors hover:text-gold"
+                      dangerouslySetInnerHTML={
+                        c.name ? { __html: c.name } : undefined
+                      }
                     >
-                      {c.title}
+                      {!c.name ? c.title : null}
                     </Link>
                   </li>
                 ))}
@@ -350,35 +386,37 @@ export function Header() {
                 </Link>
               </div>
               <div className="mt-5 grid grid-cols-4 gap-5">
-                {featured.map((p) => (
-                  <Link
-                    key={p.slug}
-                    href={`/products/${p.slug}`}
-                    className="group block"
-                  >
-                    <div className="relative aspect-[4/5] overflow-hidden bg-cream">
-                      <Image
-                        src={p.image}
-                        alt={p.name}
-                        fill
-                        sizes="180px"
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
-                      />
-                    </div>
-                    <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors group-hover:text-gold">
-                      {p.name}
-                    </p>
-                    <p className="mt-1 flex items-baseline gap-2 text-xs">
-                      <span className="font-medium text-ink">
-                        {formatPrice(p.price)}
-                      </span>
-                      <span className="font-light text-muted line-through">
-                        <span className="sr-only">MRP </span>
-                        {formatPrice(p.mrp)}
-                      </span>
-                    </p>
-                  </Link>
-                ))}
+                {(megaProducts.length > 0 ? megaProducts : featured).map(
+                  (p: any) => (
+                    <Link
+                      key={p.slug}
+                      href={`/products/${p.slug}`}
+                      className="group block"
+                    >
+                      <div className="relative aspect-[4/5] overflow-hidden bg-cream">
+                        <Image
+                          src={Array.isArray(p.image) ? p.image[0] : p.image}
+                          alt={p.name}
+                          fill
+                          sizes="180px"
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                        />
+                      </div>
+                      <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors group-hover:text-gold">
+                        {p.name}
+                      </p>
+                      <p className="mt-1 flex items-baseline gap-2 text-xs">
+                        <span className="font-medium text-ink">
+                          {formatPrice(Number(p.price))}
+                        </span>
+                        <span className="font-light text-muted line-through">
+                          <span className="sr-only">MRP </span>
+                          {formatPrice(Number(p.mrp))}
+                        </span>
+                      </p>
+                    </Link>
+                  ),
+                )}
               </div>
             </div>
           </div>
@@ -456,11 +494,21 @@ export function Header() {
                   </span>
                 </div>
                 <div className="no-scrollbar mt-4 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-1">
-                  {collections.map((c) => {
-                    const href = `/collections/${c.handle}`;
+                  {(megaCategories.length > 0
+                    ? megaCategories
+                    : collections
+                  ).map((c: any) => {
+                    const href = `/collections/${c.slug || c.handle}`;
+                    const localImage = collections.find(
+                      (lc) => lc.handle === (c.slug || c.handle),
+                    )?.image;
+                    const imageUrl =
+                      c.image ||
+                      localImage ||
+                      "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
                     return (
                       <Link
-                        key={c.handle}
+                        key={c.slug || c.handle}
                         href={href}
                         onClick={() => setOpen(false)}
                         aria-current={pathname === href ? "page" : undefined}
@@ -468,15 +516,20 @@ export function Header() {
                       >
                         <span className="relative block aspect-[3/4] overflow-hidden">
                           <Image
-                            src={c.image}
+                            src={imageUrl}
                             alt=""
                             fill
                             sizes="110px"
                             className="object-cover transition-transform duration-500 group-active:scale-110"
                           />
                         </span>
-                        <span className="mt-2 block text-[10px] font-semibold uppercase tracking-[0.05em]">
-                          {c.title}
+                        <span
+                          className="mt-2 block text-[10px] font-semibold uppercase tracking-[0.05em]"
+                          dangerouslySetInnerHTML={
+                            c.name ? { __html: c.name } : undefined
+                          }
+                        >
+                          {!c.name ? c.title : null}
                         </span>
                       </Link>
                     );
@@ -500,7 +553,10 @@ export function Header() {
                   </span>
                 </div>
                 <div className="no-scrollbar mt-4 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-1">
-                  {products.map((p) => (
+                  {(megaProducts.length > 0
+                    ? megaProducts
+                    : products.slice(0, 5)
+                  ).map((p: any) => (
                     <Link
                       key={p.slug}
                       href={`/products/${p.slug}`}
@@ -509,7 +565,7 @@ export function Header() {
                     >
                       <span className="relative block aspect-[4/5] overflow-hidden bg-cream">
                         <Image
-                          src={p.image}
+                          src={Array.isArray(p.image) ? p.image[0] : p.image}
                           alt=""
                           fill
                           sizes="128px"
@@ -521,10 +577,10 @@ export function Header() {
                       </span>
                       <span className="mt-0.5 flex items-baseline gap-1.5 text-[11px]">
                         <span className="font-medium">
-                          {formatPrice(p.price)}
+                          {formatPrice(Number(p.price))}
                         </span>
                         <span className="font-light text-muted line-through">
-                          {formatPrice(p.mrp)}
+                          {formatPrice(Number(p.mrp))}
                         </span>
                       </span>
                     </Link>

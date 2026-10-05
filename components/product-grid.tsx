@@ -20,7 +20,7 @@ function GridSection({
   link: { href: string; label: string };
 }) {
   return (
-    <section className="mx-auto max-w-7xl px-5 py-12 lg:px-10 lg:py-20">
+    <section className="mx-auto max-w-[1500px] px-5 py-12 lg:px-14 lg:py-20">
       <Reveal className="text-center">
         <p className="eyebrow-rule text-[11px] font-medium uppercase tracking-[0.45em] text-gold">
           {eyebrow}
@@ -53,12 +53,34 @@ function GridSection({
   );
 }
 
-export function ProductGrid() {
+export async function ProductGrid() {
+  let apiProducts: any[] = [];
+  try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://britishbrandbck.demotempwebsite.co.in/wp-json";
+    const res = await fetch(`${apiUrl}/custom/v1/getProducts`, { next: { revalidate: 60 } });
+    const data = await res.json();
+    if (data.success && data.products) {
+      apiProducts = data.products;
+    }
+  } catch (err) {
+    console.error("Products API error:", err);
+  }
+
+  if (apiProducts.length === 0) return null;
+
+  const mappedProducts = apiProducts.map((p) => ({
+    ...p,
+    image: Array.isArray(p.image) ? p.image[0] : (p.image || "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png"),
+    tagline: p.tagline || "",
+    price: p.price || 0,
+    mrp: p.mrp || 1, // prevent division by zero in discountPercent
+  }));
+
   return (
     <GridSection
       eyebrow="The Collection"
       title="Our Fragrances"
-      items={products}
+      items={mappedProducts as any}
       link={{ href: "/collections", label: "Shop by Collection" }}
     />
   );

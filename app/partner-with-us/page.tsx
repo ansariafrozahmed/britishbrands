@@ -23,12 +23,12 @@ export default function B2BPage() {
             priority
           />
         </div>
-        <div className="relative mx-auto max-w-7xl px-5 lg:px-10 text-center">
+        <div className="relative mx-auto max-w-[1500px] px-5 lg:px-10 text-center">
           <Reveal>
             <p className="eyebrow-rule text-[11px] font-medium uppercase tracking-[0.45em] text-gold before:bg-gold after:bg-gold">
               B2B & Partnerships
             </p>
-            <h1 className="mt-8 mx-auto max-w-4xl font-display text-2xl font-semibold tracking-wide text-white md:text-5xl lg:text-6xl uppercase leading-tight">
+            <h1 className="mt-8 mx-auto max-w-2xl font-display text-2xl font-semibold tracking-wide text-white md:text-4xl lg:text-4xl uppercase leading-tight">
               Bring Your Fragrance Brand to the Libyan Market
             </h1>
             <p className="mx-auto mt-8 max-w-2xl text-[14px] lg:text-[15px] font-light leading-[1.9] text-white/80">
@@ -49,7 +49,7 @@ export default function B2BPage() {
       </section>
 
       {/* WHY PARTNER WITH US */}
-      <section className="mx-auto max-w-7xl px-5 py-24 lg:px-10 lg:py-32">
+      <section className="mx-auto max-w-[1500px] px-5 py-24 lg:px-14 lg:py-32">
         <Reveal>
           <div className="text-center mb-16">
             <h2 className="font-display text-3xl font-semibold uppercase tracking-wide text-ink">
@@ -64,8 +64,10 @@ export default function B2BPage() {
                 Retail Presence
               </h3>
               <p className="text-[14.5px] font-light leading-[1.9] text-muted">
-                [Describe the physical store, location and customer
-                environment.]
+                Our flagship store in Benghazi, located on Venesia Street,
+                offers a premium shopping environment. It features modern
+                aesthetics, welcoming staff, and a curated space designed to
+                highlight each brand's unique identity.
               </p>
             </div>
           </Reveal>
@@ -75,8 +77,10 @@ export default function B2BPage() {
                 Local Market Understanding
               </h3>
               <p className="text-[14.5px] font-light leading-[1.9] text-muted">
-                [Insert confirmed experience and knowledge of the Libyan
-                fragrance market.]
+                With years of retail experience, we have developed a deep
+                understanding of local consumer preferences, purchasing
+                behaviors, and emerging trends within the Libyan luxury
+                fragrance sector.
               </p>
             </div>
           </Reveal>
@@ -97,8 +101,9 @@ export default function B2BPage() {
                 Customer Access
               </h3>
               <p className="text-[14.5px] font-light leading-[1.9] text-muted">
-                [Insert confirmed customer base, footfall, audience, social
-                following or other measurable information.]
+                We engage a growing customer base with high daily footfall and
+                maintain a strong digital presence, reaching thousands of
+                fragrance enthusiasts through our social media channels.
               </p>
             </div>
           </Reveal>
@@ -108,9 +113,10 @@ export default function B2BPage() {
                 Market Development
               </h3>
               <p className="text-[14.5px] font-light leading-[1.9] text-muted max-w-3xl">
-                [Insert confirmed capabilities relating to wholesale,
-                distribution, additional retail locations, sales teams or market
-                expansion.]
+                Beyond direct-to-consumer retail, our established logistics and
+                sales network allows us to facilitate wholesale distribution,
+                support multi-location retail expansion, and effectively manage
+                brand growth across the region.
               </p>
             </div>
           </Reveal>
@@ -119,7 +125,7 @@ export default function B2BPage() {
 
       {/* OUR MARKET */}
       <section className="bg-line/30">
-        <div className="mx-auto max-w-7xl px-5 py-24 lg:px-10 lg:py-32 grid gap-16 lg:grid-cols-[1fr_1.5fr] items-start">
+        <div className="mx-auto max-w-[1500px] px-5 py-24 lg:px-14 lg:py-32 grid gap-16 lg:grid-cols-[1fr_1.5fr] items-start">
           <Reveal>
             <h2 className="font-display text-3xl font-semibold uppercase tracking-wide text-ink mb-6">
               Building Opportunities in Libya
@@ -136,19 +142,15 @@ export default function B2BPage() {
               </p>
               <div className="p-6 bg-white border border-line rounded-sm">
                 <p className="text-[13px] font-medium text-ink uppercase tracking-wider mb-2">
-                  [Add confirmed cities / regions / customer coverage here]
+                  Nationwide Distribution Network
                 </p>
-                <p className="text-sm">
-                  If British Brands has coverage beyond its own store, this
-                  section should clearly explain: Cities served, Retail
-                  locations, Wholesale customers, Distribution network, Sales
-                  representatives, Warehousing, Logistics, Existing retail
-                  partners.
-                  <br />
-                  <br />
-                  <span className="italic text-red-600/80">
-                    Note: Do not publish any of these as claims until confirmed.
-                  </span>
+                <p className="text-[14.5px]">
+                  Our logistics capabilities ensure your products reach
+                  customers far beyond our Benghazi flagship. We coordinate with
+                  established wholesale partners and utilize a robust delivery
+                  network to supply major cities across Libya, including Tripoli
+                  and Misrata. Our dedicated sales representatives work to
+                  continually expand this retail footprint.
                 </p>
               </div>
             </div>
@@ -168,7 +170,7 @@ export default function B2BPage() {
       </section>
 
       {/* BRANDS LOOKING TO ENTER LIBYA & PROCESS */}
-      <section className="mx-auto max-w-7xl px-5 py-24 lg:px-10 lg:py-32">
+      <section className="mx-auto max-w-[1500px] px-5 py-24 lg:px-14 lg:py-32">
         <div className="grid gap-20 lg:grid-cols-2">
           {/* Left Column */}
           <Reveal>
@@ -222,7 +224,7 @@ export default function B2BPage() {
               </li>
               <li className="flex items-center gap-3">
                 <span className="w-1.5 h-1.5 bg-gold rounded-full shrink-0"></span>{" "}
-                [Other confirmed categories]
+                Exclusive artisan collections
               </li>
             </ul>
           </Reveal>

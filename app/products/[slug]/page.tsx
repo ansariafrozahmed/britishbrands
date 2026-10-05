@@ -96,7 +96,7 @@ export default async function ProductPage({
 
   return (
     <div className="pt-10">
-      <div className="mx-auto max-w-7xl px-5 lg:px-10">
+      <div className="mx-auto max-w-[1500px] px-5 lg:px-14">
         <nav
           aria-label="Breadcrumb"
           className="text-[10px] uppercase tracking-[0.25em] text-muted"
@@ -105,7 +105,10 @@ export default async function ProductPage({
             Home
           </Link>
           <span className="mx-3">/</span>
-          <Link href="/collections" className="transition-colors hover:text-ink">
+          <Link
+            href="/collections"
+            className="transition-colors hover:text-ink"
+          >
             Collections
           </Link>
           {collection && (
@@ -223,7 +226,9 @@ export default async function ProductPage({
                   <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold">
                     Longevity
                   </p>
-                  <p className="mt-2 text-lg font-medium">{product.longevity}</p>
+                  <p className="mt-2 text-lg font-medium">
+                    {product.longevity}
+                  </p>
                 </div>
                 <div className="border-t border-line p-5 sm:border-l sm:border-t-0">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-gold">
@@ -264,7 +269,9 @@ export default async function ProductPage({
                       <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted">
                         {label}
                       </dt>
-                      <dd className="text-sm font-light leading-relaxed">{value}</dd>
+                      <dd className="text-sm font-light leading-relaxed">
+                        {value}
+                      </dd>
                     </div>
                   ))}
                 </dl>
@@ -282,14 +289,18 @@ export default async function ProductPage({
 
       {/* ————— related ————— */}
       <section className="mt-24 border-t border-line bg-cream/60">
-        <div className="mx-auto max-w-7xl px-5 py-20 lg:px-10">
+        <div className="mx-auto max-w-[1500px] px-5 py-20 lg:px-10">
           <Reveal>
             <div className="flex items-end justify-between gap-6">
               <h2 className="font-display text-xl font-semibold uppercase tracking-[0.18em] md:text-2xl">
                 You May Also Like
               </h2>
               <Link
-                href={collection ? `/collections/${collection.handle}` : "/collections"}
+                href={
+                  collection
+                    ? `/collections/${collection.handle}`
+                    : "/collections"
+                }
                 className="link-sweep hidden text-[10px] font-medium uppercase tracking-[0.3em] sm:block"
               >
                 View All

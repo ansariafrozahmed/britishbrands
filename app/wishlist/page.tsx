@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function WishlistPage() {
   return (
-    <div className="mx-auto max-w-7xl px-5 pb-24 pt-14 lg:px-10 lg:pt-20">
+    <div className="mx-auto max-w-[1500px] px-5 pb-24 pt-14 lg:px-14 lg:pt-20">
       <header className="text-center">
         <p className="eyebrow-rule text-[11px] font-medium uppercase tracking-[0.45em] text-gold">
           Saved For Later

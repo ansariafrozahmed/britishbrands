@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { formatPrice, products } from "@/lib/products";
+import { useEffect, useRef, useState } from "react";
+import { formatPrice } from "@/lib/products";
 
 export function SearchOverlay({
   open,
@@ -19,6 +19,8 @@ export function SearchOverlay({
 
 function SearchPanel({ onClose }: { onClose: () => void }) {
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -34,15 +36,33 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
     };
   }, [onClose]);
 
-  const results = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return products;
-    return products.filter((p) =>
-      [p.name, p.family, p.tagline, ...p.notes.top, ...p.notes.middle, ...p.notes.base]
-        .join(" ")
-        .toLowerCase()
-        .includes(q),
-    );
+  useEffect(() => {
+    const q = query.trim();
+    if (!q) {
+      setResults([]);
+      return;
+    }
+
+    const delayDebounceFn = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://britishbrandbck.demotempwebsite.co.in/wp-json";
+        const res = await fetch(`${apiUrl}/custom/v1/search-products?search=${encodeURIComponent(q)}`);
+        const data = await res.json();
+        if (data && data.success && data.products) {
+          setResults(data.products);
+        } else {
+          setResults([]);
+        }
+      } catch (err) {
+        console.error("Search API error:", err);
+        setResults([]);
+      } finally {
+        setLoading(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
   }, [query]);
 
   return (
@@ -83,14 +103,20 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
         </div>
 
         <p className="mt-6 text-[10px] font-medium uppercase tracking-[0.25em] text-muted">
-          {results.length} {results.length === 1 ? "Result" : "Results"}
+          {loading ? "Searching..." : `${results.length} ${results.length === 1 ? "Result" : "Results"}`}
         </p>
 
-        {results.length === 0 ? (
-          <p className="mt-10 text-sm font-light text-muted">
-            Nothing matches “{query}”. Try a note like{" "}
-            <em>vanilla</em>, <em>lavender</em> or <em>bergamot</em>.
-          </p>
+        {!loading && results.length === 0 ? (
+          query.trim() ? (
+            <p className="mt-10 text-sm font-light text-muted">
+              Nothing matches “{query}”. Try a note like{" "}
+              <em>vanilla</em>, <em>lavender</em> or <em>bergamot</em>.
+            </p>
+          ) : (
+            <p className="mt-10 text-sm font-light text-muted">
+              Start typing to search for fragrances, notes, or families...
+            </p>
+          )
         ) : (
           <ul className="mt-4 divide-y divide-line">
             {results.map((p) => (
@@ -102,7 +128,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
                 >
                   <span className="relative block h-16 w-14 shrink-0 overflow-hidden">
                     <Image
-                      src={p.image}
+                      src={Array.isArray(p.image) ? p.image[0] : p.image}
                       alt=""
                       fill
                       sizes="56px"
@@ -114,11 +140,11 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
                       {p.name}
                     </span>
                     <span className="mt-1 block truncate text-xs font-light text-muted">
-                      {p.family} · {p.tagline}
+                      {p.family}{p.tagline ? ` · ${p.tagline}` : ""}
                     </span>
                   </span>
                   <span className="shrink-0 text-sm font-medium">
-                    {formatPrice(p.price)}
+                    {formatPrice(Number(p.price))}
                   </span>
                 </Link>
               </li>

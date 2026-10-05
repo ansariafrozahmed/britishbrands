@@ -24,7 +24,7 @@ const socials = [
 export function Footer() {
   return (
     <footer className="bg-charcoal text-white">
-      <div className="mx-auto max-w-7xl px-5 pb-10 pt-20 lg:px-10">
+      <div className="mx-auto max-w-[1500px] px-5 pb-10 pt-20 lg:px-10">
         <div className="grid gap-14 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.5fr]">
           <div>
             <Image
@@ -194,7 +194,6 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} British Brands. All rights reserved.
           </p>
-          <p>From Libya with ♥</p>
         </div>
       </div>
     </footer>

@@ -6,6 +6,8 @@ import { CtaSection } from "@/components/cta-section";
 import { BrandsSection } from "@/components/brands-section";
 import { StoreGallery } from "@/components/store-gallery";
 import { FaqSection } from "@/components/faq";
+import { B2bSection } from "@/components/b2b-section";
+import { InstagramFeed } from "@/components/instagram-feed";
 
 export default function HomePage() {
   return (
@@ -26,12 +28,18 @@ export default function HomePage() {
       <ProductGrid />
 
       {/* ————— ONE SECTION PER COLLECTION ————— */}
-      <CollectionProductGrid handle="men" />
+      {/* <CollectionProductGrid handle="men" /> */}
       {/* <CollectionProductGrid handle="women" />
       <CollectionProductGrid handle="unisex" /> */}
 
       {/* ————— STORE GALLERY ————— */}
       <StoreGallery />
+
+      {/* ————— B2B PARTNERSHIPS ————— */}
+      <B2bSection />
+
+      {/* ————— INSTAGRAM FEED ————— */}
+      <InstagramFeed />
 
       {/* ————— FAQ ————— */}
       <FaqSection />

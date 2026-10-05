@@ -33,7 +33,7 @@ export function CollectionShowcase({
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-5 py-20 lg:px-10 lg:py-28">
+    <section className="mx-auto max-w-[1500px] px-5 py-20 lg:px-10 lg:py-28">
       <Reveal>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -65,7 +65,11 @@ export function CollectionShowcase({
                     : "text-muted hover:text-ink"
                 }`}
               >
-                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="currentColor">
+                <svg
+                  viewBox="0 0 16 16"
+                  className="h-3.5 w-3.5"
+                  fill="currentColor"
+                >
                   <rect x="1" y="1" width="6" height="6" />
                   <rect x="9" y="1" width="6" height="6" />
                   <rect x="1" y="9" width="6" height="6" />
@@ -83,7 +87,11 @@ export function CollectionShowcase({
                     : "text-muted hover:text-ink"
                 }`}
               >
-                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="currentColor">
+                <svg
+                  viewBox="0 0 16 16"
+                  className="h-3.5 w-3.5"
+                  fill="currentColor"
+                >
                   <rect x="0" y="3" width="2.5" height="10" />
                   <rect x="4.5" y="3" width="7" height="10" />
                   <rect x="13.5" y="3" width="2.5" height="10" />

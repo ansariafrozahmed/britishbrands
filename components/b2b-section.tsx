@@ -1,22 +1,22 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { Reveal } from "@/components/reveal";
-import { whatsappHref } from "@/lib/site";
 
-export function AboutUs() {
+export function B2bSection() {
   return (
     <section className=" text-[#3F2E19]">
       <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20 mx-auto max-w-[1500px] px-5 py-12 lg:px-14 lg:py-20">
         <Reveal>
           <div className="relative">
             <div className="absolute -right-4 -top-4 hidden h-full w-full border border-gold-light lg:block" />
-            <div className="relative aspect-[4/4.25] overflow-hidden">
+            <div className="relative aspect-[4/3.5] overflow-hidden">
               <Image
-                src="/DSC00596.webp"
+                src="https://pub-ab787ccfc74d4e3fb148587fdedd4650.r2.dev/DSC00779.JPG"
                 alt="British Brands bottles"
-                fill
+                height={600}
+                width={600}
                 sizes="(max-width: 1024px) 90vw, 90vw"
-                className="object-cover"
+                className="h-full w-full object-cover"
               />
             </div>
           </div>
@@ -24,41 +24,21 @@ export function AboutUs() {
         <div>
           <Reveal>
             <p className="eyebrow-rule text-[11px] font-medium uppercase tracking-[0.45em] text-gold-light">
-              About Us
+              B2B & Wholesale
             </p>
             <h2 className="mt-6 font-display text-[1.6rem] uppercase font-normal tracking-[0.015em]  leading-[1.4] md:text-[2rem]">
-              A Fragrance <br /> Destination in Libya
+              Bring Your Fragrance <br /> Brand to Libya
             </h2>
           </Reveal>
           <Reveal delay={150}>
             <p className="mt-7 text-[15px] font-normal leading-[1.9] text-[#3F2E19]/85">
-              British Brands brings together a selection of fragrance brands and
-              products for customers looking to discover, explore and purchase
-              fragrances in-store. From everyday favourites to distinctive and
-              premium scents, our collection is carefully presented to provide
-              customers with a convenient place to discover fragrances for
-              different personalities, occasions and preferences.
+              We are actively seeking conversations with international fragrance
+              houses looking to explore the Libyan market. Partner with British
+              Brands to expand your reach through our established retail
+              presence and nationwide distribution network.
             </p>
           </Reveal>
-          <Reveal delay={250}>
-            <dl className="mt-10 grid grid-cols-3 gap-8 border-t border-gold-light/20 pt-8">
-              {[
-                ["2018", "Established"],
-                ["Libya", "Location"],
-                // ["50+", "Brands"],
-              ].map(([value, label]) => (
-                <div key={label}>
-                  <dt className="sr-only">{label}</dt>
-                  <dd className="font-display text-3xl font-semibold text-[#3F2E19]">
-                    {value}
-                  </dd>
-                  <dd className="mt-2 text-[10px] uppercase tracking-[0.2em] text-[#3F2E19]/75">
-                    {label}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
+
           <Reveal delay={350}>
             <div className="mt-10 flex flex-wrap gap-4">
               <Link

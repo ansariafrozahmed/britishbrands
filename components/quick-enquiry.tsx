@@ -29,7 +29,7 @@ export function QuickEnquiry({ product }: { product: Product }) {
         </a>
       </div>
       <p className="mt-3 text-center text-[11px] font-light text-muted sm:text-left">
-        {contact.phoneDisplay} · Mon – Sat, 10 AM – 7 PM · Replies within 24 hours
+        {contact.phoneDisplay} · Sat – Thu, 10 AM – 10:30 PM | Fri 4:30 PM – 10:30 PM · Replies within 24 hours
       </p>
     </div>
   );

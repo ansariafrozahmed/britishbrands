@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function CollectionsPage() {
   return (
-    <div className="mx-auto max-w-7xl px-5 pb-24 pt-10 lg:px-10 lg:pt-14">
+    <div className="mx-auto max-w-[1500px] px-5 pb-24 pt-10 lg:px-14 lg:pt-14">
       <nav
         aria-label="Breadcrumb"
         className="text-[10px] uppercase text-center tracking-[0.25em] text-muted"
