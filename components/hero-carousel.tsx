@@ -61,7 +61,7 @@ export function HeroCarousel() {
           {slides.map((slide, index) => (
             <div
               key={slide.id}
-              className="min-w-0 flex-[0_0_100%] h-[85vh] lg:h-screen relative"
+              className="min-w-0 flex-[0_0_100%] h-[80vh] lg:h-screen relative"
             >
               {/* Desktop */}
               <Image
@@ -82,7 +82,7 @@ export function HeroCarousel() {
                 height={1920}
                 sizes="100vw"
                 quality={100}
-                className="block w-full h-full object-cover object-center md:hidden"
+                className="block w-full h-full object-cover object-left md:hidden"
                 priority={index === 0}
               />
             </div>
