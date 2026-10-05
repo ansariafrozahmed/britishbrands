@@ -66,7 +66,7 @@ export default async function BrandsPage() {
                   href={`/brands/${handle}`}
                   className="group flex flex-col h-full overflow-hidden rounded-md border border-line bg-white transition-all duration-300 hover:border-gold-light hover:shadow-[0_8px_30px_rgba(22,19,15,0.08)]"
                 >
-                  <div className="flex h-48 w-full items-center justify-center p-8 bg-zinc-50/50">
+                  <div className="flex h-48 w-full items-center justify-center p-8 bg-white">
                     <div className="relative h-full w-[80%]">
                       <Image
                         src={imageUrl}
