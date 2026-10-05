@@ -23,7 +23,7 @@ export function ProductCard({ product }: { product: Product }) {
           className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.06]"
         />
         <WishlistButton
-          slug={product.slug}
+          product={product}
           className="absolute right-2 top-2"
         />
       </div>

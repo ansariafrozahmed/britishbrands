@@ -45,7 +45,7 @@ export function Header() {
     { name: string; slug: string }[]
   >([]);
   const [megaProducts, setMegaProducts] = useState<any[]>([]);
-  const { slugs } = useWishlist();
+  const { items } = useWishlist();
 
   useEffect(() => {
     async function fetchMegaMenu() {
@@ -229,7 +229,7 @@ export function Header() {
           <div className="flex items-center gap-1 justify-self-end">
             <Link
               href="/wishlist"
-              aria-label={`Wishlist, ${slugs.length} saved`}
+              aria-label={`Wishlist, ${items.length} saved`}
               className={`sweep-parent flex items-center gap-2 transition-colors duration-300 ${iconColor}`}
             >
               <span className="relative flex h-10 w-10 items-center justify-center lg:w-5">
@@ -242,9 +242,9 @@ export function Header() {
                 >
                   <path d="M12 20.5C6.8 16.6 3.5 13.4 3.5 9.9A4.4 4.4 0 0112 7.2a4.4 4.4 0 018.5 2.7c0 3.5-3.3 6.7-8.5 10.6z" />
                 </svg>
-                {slugs.length > 0 && (
+                {items.length > 0 && (
                   <span className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center bg-gold text-[9px] font-semibold text-white lg:hidden">
-                    {slugs.length}
+                    {items.length}
                   </span>
                 )}
               </span>
@@ -252,9 +252,9 @@ export function Header() {
                 <span className="link-sweep text-[10px] font-medium uppercase tracking-[0.3em]">
                   Wishlist
                 </span>
-                {slugs.length > 0 && (
+                {items.length > 0 && (
                   <span className="flex h-4 min-w-4 items-center justify-center bg-gold px-1 text-[9px] font-semibold text-white">
-                    {slugs.length}
+                    {items.length}
                   </span>
                 )}
               </span>
@@ -601,8 +601,8 @@ export function Header() {
                   ),
                   {
                     href: "/wishlist",
-                    label: slugs.length
-                      ? `Wishlist (${slugs.length})`
+                    label: items.length
+                      ? `Wishlist (${items.length})`
                       : "Wishlist",
                   },
                 ].map((item, i) => {

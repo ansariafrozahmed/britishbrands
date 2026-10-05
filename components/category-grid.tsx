@@ -17,9 +17,7 @@ export function useCategories() {
         const apiUrl =
           process.env.NEXT_PUBLIC_API_URL ||
           "https://britishbrandbck.demotempwebsite.co.in/wp-json";
-        const res = await fetch(`${apiUrl}/custom/v1/getAllCategories`, {
-          next: { revalidate: 20 },
-        });
+        const res = await fetch(`${apiUrl}/custom/v1/getAllCategories`);
         const data = await res.json();
         if (data.success && data.categories) {
           setCats(data.categories);

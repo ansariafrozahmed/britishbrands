@@ -2,21 +2,23 @@
 
 import { useEffect, useState } from "react";
 
-const KEY = "britishbrands-wishlist";
+import { Product } from "@/lib/products";
+
+const KEY = "britishbrands-wishlist-full";
 const EVENT = "britishbrands-wishlist-change";
 
-function read(): string[] {
+function read(): Product[] {
   try {
     const raw = JSON.parse(localStorage.getItem(KEY) ?? "[]");
-    return Array.isArray(raw) ? raw.filter((s) => typeof s === "string") : [];
+    return Array.isArray(raw) ? raw : [];
   } catch {
     return [];
   }
 }
 
-function write(slugs: string[]) {
+function write(products: Product[]) {
   try {
-    localStorage.setItem(KEY, JSON.stringify(slugs));
+    localStorage.setItem(KEY, JSON.stringify(products));
   } catch {
     // storage unavailable — wishlist lives for this render only
   }
@@ -24,10 +26,10 @@ function write(slugs: string[]) {
 }
 
 export function useWishlist() {
-  const [slugs, setSlugs] = useState<string[]>([]);
+  const [items, setItems] = useState<Product[]>([]);
 
   useEffect(() => {
-    const sync = () => setSlugs(read());
+    const sync = () => setItems(read());
     sync();
     window.addEventListener(EVENT, sync);
     window.addEventListener("storage", sync);
@@ -37,27 +39,32 @@ export function useWishlist() {
     };
   }, []);
 
-  const toggle = (slug: string) => {
+  const toggle = (product: Product) => {
     const current = read();
+    const exists = current.some((p) => p.slug === product.slug);
     write(
-      current.includes(slug)
-        ? current.filter((s) => s !== slug)
-        : [...current, slug],
+      exists
+        ? current.filter((p) => p.slug !== product.slug)
+        : [...current, product],
     );
   };
 
-  return { slugs, toggle, has: (slug: string) => slugs.includes(slug) };
+  return { 
+    items, 
+    toggle, 
+    has: (slug: string) => items.some((p) => p.slug === slug) 
+  };
 }
 
 export function WishlistButton({
-  slug,
+  product,
   className = "",
 }: {
-  slug: string;
+  product: Product;
   className?: string;
 }) {
   const { has, toggle } = useWishlist();
-  const saved = has(slug);
+  const saved = has(product.slug);
 
   return (
     <button
@@ -67,7 +74,7 @@ export function WishlistButton({
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        toggle(slug);
+        toggle(product);
       }}
       className={`flex h-9 w-9 bg-white rounded-xs items-center justify-center transition-colors duration-300 ${className}`}
     >
