@@ -117,5 +117,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("Sitemap: Error fetching brands", error);
   }
 
-  return [...staticRoutes, ...collectionRoutes, ...brandRoutes, ...productRoutes];
+  return [
+    ...staticRoutes,
+    ...collectionRoutes,
+    ...brandRoutes,
+    ...productRoutes,
+  ];
 }
