@@ -11,7 +11,7 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
-const SITE_URL = "https://britishbrands.com";
+const SITE_URL = process.env.SITE_URL || "https://britishbrandsly.com";
 const SITE_NAME = "BRITISH BRANDS";
 const OG_IMAGE =
   "https://images.nifsperfume.com/ChatGPT%20Image%20Sep%2013%2C%202026%2C%2005_51_40%20PM.jpeg";

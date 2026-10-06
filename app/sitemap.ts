@@ -4,7 +4,7 @@ import { collections, products } from '@/lib/products';
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://britishbrands.com';
+  const baseUrl = process.env.SITE_URL || 'https://britishbrandsly.com';
   
   const staticRoutes: MetadataRoute.Sitemap = [
     {
