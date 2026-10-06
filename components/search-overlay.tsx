@@ -143,9 +143,7 @@ function SearchPanel({ onClose }: { onClose: () => void }) {
                       {p.family}{p.tagline ? ` · ${p.tagline}` : ""}
                     </span>
                   </span>
-                  <span className="shrink-0 text-sm font-medium">
-                    {formatPrice(Number(p.price))}
-                  </span>
+
                 </Link>
               </li>
             ))}

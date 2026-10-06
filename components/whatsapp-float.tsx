@@ -13,7 +13,7 @@ export function WhatsAppFloat() {
     : null;
   const product = slug ? getProduct(slug) : undefined;
   const message = product
-    ? `Hi British Brands, I'm interested in ${product.name} (${product.sizes[0]}, ${formatPrice(product.price)}). Could you share availability and offers?`
+    ? `Hi British Brands, I'm interested in ${product.name} (${product.sizes[0]}). Could you share availability and offers?`
     : "Hi British Brands, I have a question.";
 
   return (

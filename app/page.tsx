@@ -12,6 +12,9 @@ import { InstagramFeed } from "@/components/instagram-feed";
 export const revalidate = 10;
 
 export default function HomePage() {
+  console.log(process.env.NEXT_PUBLIC_API_URL);
+  console.log(process.env.SITE_URL);
+
   return (
     <>
       {/* ————— HERO ————— */}

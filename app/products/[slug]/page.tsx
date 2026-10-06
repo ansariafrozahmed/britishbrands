@@ -208,7 +208,7 @@ export default async function ProductPage({
               {product.family}
             </p>
 
-            <div className="mt-7 flex flex-wrap items-baseline gap-3 border-y border-line py-5">
+            {/* <div className="mt-7 flex flex-wrap items-baseline gap-3 border-y border-line py-5">
               <span className="text-3xl font-semibold tracking-wide">
                 {formatPrice(price)}
               </span>
@@ -222,7 +222,7 @@ export default async function ProductPage({
               <span className="ml-auto text-[11px] font-light text-muted">
                 Inclusive of all taxes
               </span>
-            </div>
+            </div> */}
 
             <div className="mt-6">
               <QuickEnquiry product={product} />

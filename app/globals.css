@@ -195,3 +195,34 @@ body {
   background: var(--gold);
   opacity: 0.6;
 }
+
+/* ── Google Translate — hide default banner/gadget, keep layout stable ── */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-gadget-icon,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+}
+iframe.skiptranslate {
+  visibility: hidden !important;
+  display: none !important;
+}
+body {
+  top: 0 !important;
+  position: static !important;
+}
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+/* keep the mount gadget in the DOM but out of sight */
+#google_translate_element {
+  position: fixed;
+  left: -9999px;
+  top: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

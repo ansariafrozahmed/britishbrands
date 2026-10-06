@@ -14,10 +14,10 @@ export function useCategories() {
   useEffect(() => {
     async function fetchCats() {
       try {
-        const apiUrl =
-          process.env.NEXT_PUBLIC_API_URL ||
-          "https://britishbrandbck.demotempwebsite.co.in/wp-json";
-        const res = await fetch(`${apiUrl}/custom/v1/getAllCategories`);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/custom/v1/getAllCategories`,
+          { next: { revalidate: 60 } },
+        );
         const data = await res.json();
         if (data.success && data.categories) {
           setCats(data.categories);
@@ -118,7 +118,7 @@ export function CategorySlider() {
             return (
               <div
                 key={c.slug || c.handle}
-                className="min-w-0 flex-none  pl-4 w-[60%] sm:w-[40%] lg:w-[25%]"
+                className="min-w-0 flex-none  pl-4 w-[60%] sm:w-[40%] lg:w-[22%]"
               >
                 <Link
                   href={`/collections/${c.slug || c.handle}`}

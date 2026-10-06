@@ -58,7 +58,7 @@ export default async function BrandPage({
     if (resolvedSearchParams.family) query.append("family", resolvedSearchParams.family as string);
 
     // 3. Fetch products
-    const prodRes = await fetch(`${apiUrl}/custom/v1/getProductsByBrand?${query.toString()}`);
+    const prodRes = await fetch(`${apiUrl}/custom/v1/getProductsByBrand?${query.toString()}`, { next: { revalidate: 60 } });
     const prodData = await prodRes.json();
     
     if (prodData.success && prodData.products) {

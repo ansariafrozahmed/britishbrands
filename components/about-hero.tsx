@@ -39,9 +39,9 @@ export function AboutHero() {
 
         <div className="space-y-12">
           <Reveal delay={100}>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            {/* <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
               Intro
-            </h2>
+            </h2> */}
             <p className="mt-4 text-[15px] font-light leading-[1.9] text-muted">
               British Brands is a fragrance retailer based in Libya, bringing
               together a curated selection of fragrance brands and products for
@@ -51,9 +51,9 @@ export function AboutHero() {
           </Reveal>
 
           <Reveal delay={200}>
-            <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
+            {/* <h2 className="font-display text-xl font-semibold uppercase tracking-wide text-ink">
               Company Story
-            </h2>
+            </h2> */}
             <div className="mt-4 space-y-4 text-[15px] font-light leading-[1.9] text-muted">
               <p>
                 British Brands was established to create a destination where

@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://britishbrands.com/sitemap.xml',
+    sitemap: `${process.env.SITE_URL || 'https://britishbrandsly.com'}/sitemap.xml`,
   };
 }
 

@@ -75,7 +75,7 @@ export default async function CollectionPage({
 
     // 3. Fetch products
     const prodRes = await fetch(
-      `${apiUrl}/custom/v1/getProductsByCategory?${query.toString()}`,
+      `${apiUrl}/custom/v1/getProductsByCategory?${query.toString()}`, { next: { revalidate: 60 } }
     );
     const prodData = await prodRes.json();
 

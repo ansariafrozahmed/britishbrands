@@ -410,7 +410,7 @@ export function Header() {
                       <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.12em] transition-colors group-hover:text-gold">
                         {p.name}
                       </p>
-                      <p className="mt-1 flex items-baseline gap-2 text-xs">
+                      {/* <p className="mt-1 flex items-baseline gap-2 text-xs">
                         <span className="font-medium text-ink">
                           {formatPrice(Number(p.price))}
                         </span>
@@ -418,7 +418,7 @@ export function Header() {
                           <span className="sr-only">MRP </span>
                           {formatPrice(Number(p.mrp))}
                         </span>
-                      </p>
+                      </p> */}
                     </Link>
                   ),
                 )}
@@ -580,14 +580,14 @@ export function Header() {
                       <span className="mt-2 block truncate text-[10px] font-semibold uppercase tracking-[0.12em]">
                         {p.name}
                       </span>
-                      <span className="mt-0.5 flex items-baseline gap-1.5 text-[11px]">
+                      {/* <span className="mt-0.5 flex items-baseline gap-1.5 text-[11px]">
                         <span className="font-medium">
                           {formatPrice(Number(p.price))}
                         </span>
                         <span className="font-light text-muted line-through">
                           {formatPrice(Number(p.mrp))}
                         </span>
-                      </span>
+                      </span> */}
                     </Link>
                   ))}
                 </div>

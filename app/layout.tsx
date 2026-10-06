@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
+import GoogleTranslate from "@/components/google-translate";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -11,10 +12,10 @@ const inter = Inter({
   weight: ["300", "400", "500", "600"],
 });
 
-const SITE_URL = "https://britishbrands.com";
+const SITE_URL = process.env.SITE_URL || "https://britishbrandsly.com";
 const SITE_NAME = "BRITISH BRANDS";
 const OG_IMAGE =
-  "https://images.nifsperfume.com/ChatGPT%20Image%20Sep%2013%2C%202026%2C%2005_51_40%20PM.jpeg";
+  "https://pub-ab787ccfc74d4e3fb148587fdedd4650.r2.dev/DSC00621.JPG";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -111,8 +112,6 @@ export const metadata: Metadata = {
     },
   },
 
-  manifest: "/site.webmanifest",
-
   category: "shopping",
 
   referrer: "origin-when-cross-origin",
@@ -126,6 +125,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main className="flex-1">{children}</main>
         <Footer />
         <WhatsAppFloat />
+        <GoogleTranslate />
       </body>
     </html>
   );

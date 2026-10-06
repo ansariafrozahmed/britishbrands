@@ -4,8 +4,8 @@ import { contact, telHref, whatsappHref } from "@/lib/site";
 export function QuickEnquiry({ product }: { product: any }) {
   const sizeStr = product.sizes?.[0]?.size || "";
   const price = parseFloat(product.price) || 0;
-  const sizeText = sizeStr ? `${sizeStr}, ` : "";
-  const message = `Hi British Brands, I'm interested in ${product.name} (${sizeText}${formatPrice(price)}). Could you share availability and offers?`;
+  const sizeText = sizeStr ? ` (${sizeStr})` : "";
+  const message = `Hi British Brands, I'm interested in ${product.name}${sizeText}. Could you share availability and offers?`;
 
   return (
     <div>

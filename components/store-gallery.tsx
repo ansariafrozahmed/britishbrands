@@ -30,7 +30,7 @@ export function StoreGallery() {
       delay: 300,
     },
     {
-      src: "/DSC00632.webp",
+      src: "/DSC00638.webp",
       alt: "Store Front",
       colSpan: "col-span-2",
       rowSpan: "",
