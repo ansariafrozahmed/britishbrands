@@ -486,60 +486,43 @@ export function Header() {
               {/* collections showcase */}
               <div
                 style={{ transitionDelay: open ? "120ms" : "0ms" }}
-                className={`pt-6 transition-all duration-500 ${
+                className={`pt-6 px-5 transition-all duration-500 ${
                   open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
                 }`}
               >
-                <div className="flex items-baseline justify-between px-5">
+                <div className="flex items-baseline justify-between">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-gold">
                     Shop by Collection
                   </p>
-                  <span className="text-[10px] font-light uppercase tracking-[0.2em] text-muted">
-                    Swipe →
-                  </span>
                 </div>
-                <div className="no-scrollbar mt-4 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-1">
+                <ul className="mt-4 space-y-3">
                   {(megaCategories.length > 0
                     ? megaCategories
                     : collections
-                  ).map((c: any) => {
-                    const href = `/collections/${c.slug || c.handle}`;
-                    const localImage = collections.find(
-                      (lc) => lc.handle === (c.slug || c.handle),
-                    )?.image;
-                    const imageUrl =
-                      c.image ||
-                      localImage ||
-                      "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
-                    return (
+                  ).map((c: any) => (
+                    <li key={c.slug || c.handle}>
                       <Link
-                        key={c.slug || c.handle}
-                        href={href}
+                        href={`/collections/${c.slug || c.handle}`}
                         onClick={() => setOpen(false)}
-                        aria-current={pathname === href ? "page" : undefined}
-                        className={`group block w-28 shrink-0 snap-start ${pathname === href ? "text-gold" : "text-ink"}`}
+                        className="text-[13px] font-medium text-ink transition-colors hover:text-gold"
+                        dangerouslySetInnerHTML={
+                          c.name ? { __html: c.name } : undefined
+                        }
                       >
-                        <span className="relative block aspect-[3/4] overflow-hidden">
-                          <Image
-                            src={imageUrl}
-                            alt=""
-                            fill
-                            sizes="110px"
-                            className="object-cover transition-transform duration-500 group-active:scale-110"
-                          />
-                        </span>
-                        <span
-                          className="mt-2 block text-[10px] font-semibold uppercase tracking-[0.05em]"
-                          dangerouslySetInnerHTML={
-                            c.name ? { __html: c.name } : undefined
-                          }
-                        >
-                          {!c.name ? c.title : null}
-                        </span>
+                        {!c.name ? c.title : null}
                       </Link>
-                    );
-                  })}
-                </div>
+                    </li>
+                  ))}
+                  <li className="pt-2">
+                    <Link
+                      href="/collections"
+                      onClick={() => setOpen(false)}
+                      className="link-sweep text-[10px] font-medium uppercase tracking-[0.3em] text-ink"
+                    >
+                      All Collections
+                    </Link>
+                  </li>
+                </ul>
               </div>
 
               {/* fragrance carousel */}
